@@ -40,18 +40,19 @@
         android:text="Send" />
 
     <Button
-        android:id="@+id/bReadBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="Read Back" />
-
-    <Button
         android:id="@+id/bCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/bReadBack"
         android:text="Cancel" />
+
+    <Button
+        android:id="@+id/bReadBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bSend"
+        android:text="Read Back" />
 
 </RelativeLayout>
