@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.speech.SpeechRecognizer;
 import android.widget.Button;
 
 public class CommandListener implements RecognitionListener {
@@ -36,7 +37,10 @@ public class CommandListener implements RecognitionListener {
 
 	@Override
 	public void onEndOfSpeech() {
-		
+		/*
+		 * The user is done talking, activate the mike button.
+		 */
+		this.micButton.setEnabled(true);
 	}
 
 	@Override
@@ -61,7 +65,10 @@ public class CommandListener implements RecognitionListener {
 
 	@Override
 	public void onResults(Bundle results) {
-		
+		/*
+		 * Gather the results, set the member variable accordingly.
+		 */
+		this.result = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 	}
 
 	@Override
