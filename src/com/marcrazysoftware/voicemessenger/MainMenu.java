@@ -6,6 +6,10 @@ import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.app.Activity;
@@ -104,6 +108,42 @@ public class MainMenu extends Activity implements OnInitListener,
 
 	private void resultDispatcher(List<String> results) {
 
+	}
+	
+	private void setWidgets() {
+		this.messageListView = (ListView) findViewById(R.id.lvMessageView);
+		this.micButton = (Button) findViewById(R.id.bMicrophone);
+		this.sendMessageButton = (Button) findViewById(R.id.bSendMessage);
+		
+		this.messageListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		this.micButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		this.sendMessageButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 
 	private boolean isConnected() {
