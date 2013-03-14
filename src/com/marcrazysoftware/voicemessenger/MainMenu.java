@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+@SuppressWarnings("unused")
 public class MainMenu extends Activity implements OnInitListener {
 
 	/*
@@ -174,5 +175,16 @@ public class MainMenu extends Activity implements OnInitListener {
 				startActivity(installTTSIntent);
 			}
 		}
+	}
+
+	/**
+	 * Uses the Android TTS service, to speak the string it has been passed to
+	 * the user.
+	 * 
+	 * @param sayThis
+	 *            The string of text to be spoken
+	 */
+	private void speak(String sayThis) {
+		this.TTS.speak(sayThis, TextToSpeech.QUEUE_FLUSH, null);
 	}
 }
