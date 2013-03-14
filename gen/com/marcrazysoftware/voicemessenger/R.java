@@ -25,9 +25,10 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout1=0x7f070000;
-        public static final int OverallMessagingLayout=0x7f070003;
         public static final int bMicrophone=0x7f070002;
+        public static final int etRecipient=0x7f070004;
         public static final int lvMessageView=0x7f070001;
+        public static final int textView=0x7f070003;
     }
     public static final class layout {
         public static final int main_menu_layout=0x7f030000;
