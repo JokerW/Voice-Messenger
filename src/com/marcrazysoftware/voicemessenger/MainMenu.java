@@ -24,7 +24,7 @@ public class MainMenu extends Activity {
 	 */
 	private Button mMicrophoneButton;
 	private ListView mMessageList;
-	
+
 	private SpeechRecognizer recognizer;
 
 	@Override
@@ -43,7 +43,7 @@ public class MainMenu extends Activity {
 		 */
 		this.mMicrophoneButton = (Button) findViewById(R.id.bMicrophone);
 		this.mMessageList = (ListView) findViewById(R.id.lvMessageView);
-		
+
 		/*
 		 * Only enable the button if voice recognition is available
 		 */
@@ -74,6 +74,11 @@ public class MainMenu extends Activity {
 		});
 	}
 
+	/**
+	 * Checks whether or not the current device supports voice recognition.
+	 * 
+	 * @return Whether or not the phone supports voice recognition.
+	 */
 	private boolean hasRecognition() {
 		PackageManager pm = getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
@@ -83,22 +88,44 @@ public class MainMenu extends Activity {
 		} else
 			return true;
 	}
-	
+
+	/**
+	 * Runs the voice recognition for this activity.
+	 */
 	private void runCommandListener() {
+		/*
+		 * Set up the command listener.
+		 */
 		CommandListener listener = new CommandListener(this.mMicrophoneButton);
+
+		/*
+		 * Associate our listener object with the speech recognizer.
+		 */
 		this.recognizer = SpeechRecognizer.createSpeechRecognizer(this);
 		recognizer.setRecognitionListener(listener);
-		
+
+		/*
+		 * Set up the recognizer intent for the type of speech recognition we
+		 * will be needing.
+		 */
 		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.marcrazysoftware.voicemessenger");
-		
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+				"com.marcrazysoftware.voicemessenger");
+
+		/*
+		 * Run the speech recognition, send the result to the dispatcher.
+		 */
 		recognizer.startListening(intent);
 		resultDispatcher(listener.getResult());
 	}
-	
+
 	private void resultDispatcher(List<String> results) {
-		
+		/*
+		 * For now, we Toast the result for testing purposes.
+		 */
+		Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
 	}
 
 }
