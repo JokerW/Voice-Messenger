@@ -4,11 +4,25 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.widget.Button;
 
 public class CommandListener implements RecognitionListener {
 	
-	public boolean hasResult;
-	public List<String> result;
+	private boolean hasResult;
+	private List<String> result;
+	private Button micButton;
+	
+	public CommandListener(final Button micButton) {
+		this.micButton = micButton;
+	}
+	
+	public boolean hasResult() {
+		return this.hasResult;
+	}
+	
+	public List<String> getResult() {
+		return this.result;
+	}
 
 	@Override
 	public void onBeginningOfSpeech() {
@@ -26,7 +40,7 @@ public class CommandListener implements RecognitionListener {
 	}
 
 	@Override
-	public void onError(int arg0) {
+	public void onError(int code) {
 		
 	}
 
