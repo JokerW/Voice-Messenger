@@ -28,7 +28,7 @@ public final class R {
         public static final int bCancel=0x7f070008;
         public static final int bMicrophone=0x7f070002;
         public static final int bReadBack=0x7f070007;
-        public static final int button1=0x7f070006;
+        public static final int bSend=0x7f070006;
         public static final int etMessageBody=0x7f070005;
         public static final int etRecipient=0x7f070004;
         public static final int lvMessageView=0x7f070001;

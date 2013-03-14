@@ -31,7 +31,7 @@
         android:inputType="textMultiLine" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/bSend"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -44,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button1"
         android:text="Read Back" />
 
     <Button
