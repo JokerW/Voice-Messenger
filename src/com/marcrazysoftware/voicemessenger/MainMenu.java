@@ -22,8 +22,8 @@ public class MainMenu extends Activity {
 	/*
 	 * Class member variables
 	 */
-	private Button mMicrophoneButton;
-	private ListView mMessageList;
+	private Button microphoneButton;
+	private ListView messageList;
 
 	private SpeechRecognizer recognizer;
 
@@ -41,18 +41,18 @@ public class MainMenu extends Activity {
 		/*
 		 * Attach the views to code elements
 		 */
-		this.mMicrophoneButton = (Button) findViewById(R.id.bMicrophone);
-		this.mMessageList = (ListView) findViewById(R.id.lvMessageView);
+		this.microphoneButton = (Button) findViewById(R.id.bMicrophone);
+		this.messageList = (ListView) findViewById(R.id.lvMessageView);
 
 		/*
 		 * Only enable the button if voice recognition is available
 		 */
-		this.mMicrophoneButton.setEnabled(isRecognitionAvailable);
+		this.microphoneButton.setEnabled(isRecognitionAvailable);
 
 		/*
 		 * Click listener for the microphone button
 		 */
-		this.mMicrophoneButton.setOnClickListener(new OnClickListener() {
+		this.microphoneButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -63,7 +63,7 @@ public class MainMenu extends Activity {
 		/*
 		 * Item click listener for the list view
 		 */
-		this.mMessageList.setOnItemClickListener(new OnItemClickListener() {
+		this.messageList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
@@ -100,7 +100,7 @@ public class MainMenu extends Activity {
 		/*
 		 * Set up the command listener.
 		 */
-		CommandListener listener = new CommandListener(this.mMicrophoneButton);
+		CommandListener listener = new CommandListener(this.microphoneButton);
 
 		/*
 		 * Associate our listener object with the speech recognizer.
@@ -125,6 +125,12 @@ public class MainMenu extends Activity {
 		resultDispatcher(listener.getResult());
 	}
 
+	/**
+	 * Takes the necessary action based on the results of the voice recognition.
+	 * 
+	 * @param results
+	 *            List containing the results of the voice recognition.
+	 */
 	private void resultDispatcher(List<String> results) {
 		/*
 		 * For now, we Toast the result for testing purposes.

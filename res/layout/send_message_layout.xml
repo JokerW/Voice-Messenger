@@ -25,18 +25,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etRecipient"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="88dp"
         android:ems="10"
         android:hint="Message Body"
         android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/bReadBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etMessageBody"
+        android:layout_marginTop="46dp"
+        android:text="Read Back" />
 
     <Button
         android:id="@+id/bSend"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/etMessageBody"
-        android:layout_marginTop="83dp"
+        android:layout_below="@+id/bReadBack"
         android:text="Send" />
 
     <Button
@@ -44,15 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bReadBack"
-        android:text="Cancel" />
-
-    <Button
-        android:id="@+id/bReadBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/bSend"
-        android:text="Read Back" />
+        android:text="Cancel" />
 
 </RelativeLayout>
