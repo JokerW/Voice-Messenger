@@ -5,6 +5,8 @@ import java.util.List;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -17,7 +19,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-public class MainMenu extends Activity {
+public class MainMenu extends Activity implements OnInitListener {
 
 	/*
 	 * Class member variables
@@ -27,11 +29,22 @@ public class MainMenu extends Activity {
 
 	private SpeechRecognizer recognizer;
 
+	private TextToSpeech TTS;
+
+	private static final int TTS_CODE = 12345;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu_layout);
 		setWidgets(hasRecognition());
+
+		/*
+		 * Check for TTS capabilities.
+		 */
+		Intent checkTTSIntent = new Intent();
+		checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(checkTTSIntent, TTS_CODE);
 	}
 
 	/**
@@ -138,4 +151,28 @@ public class MainMenu extends Activity {
 		Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
 	}
 
+	@Override
+	public void onInit(int status) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == TTS_CODE) {
+			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+				this.TTS = new TextToSpeech(this, this);
+			} else {
+				/*
+				 * There is no data, install it.
+				 */
+				Intent installTTSIntent = new Intent();
+				installTTSIntent
+						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				startActivity(installTTSIntent);
+			}
+		}
+	}
 }
