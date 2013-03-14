@@ -68,7 +68,11 @@ public class MainMenu extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view,
 					int index, long id) {
-				Toast.makeText(getBaseContext(), "ScrollView Clicked",
+				/*
+				 * For now, simply notify the user that they have clicked the
+				 * listview
+				 */
+				Toast.makeText(getBaseContext(), "ListView Clicked",
 						Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -102,7 +106,7 @@ public class MainMenu extends Activity {
 		 * Associate our listener object with the speech recognizer.
 		 */
 		this.recognizer = SpeechRecognizer.createSpeechRecognizer(this);
-		recognizer.setRecognitionListener(listener);
+		this.recognizer.setRecognitionListener(listener);
 
 		/*
 		 * Set up the recognizer intent for the type of speech recognition we
