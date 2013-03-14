@@ -25,9 +25,12 @@ public class MainMenu extends Activity {
 		setWidgets();
 	}
 
+	/**
+	 * Attach the widgets to code elements, and set click listeners.
+	 */
 	private void setWidgets() {
 		this.mMicrophoneButton = (Button) findViewById(R.id.bMicrophone);
-		this.mMessageList = (ListView) findViewById(R.id.svMessageView);
+		this.mMessageList = (ListView) findViewById(R.id.lvMessageView);
 
 		this.mMicrophoneButton.setOnClickListener(new OnClickListener() {
 
@@ -37,14 +40,14 @@ public class MainMenu extends Activity {
 						Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+
 		this.mMessageList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				
+			public void onItemClick(AdapterView<?> adapter, View view, int index,
+					long id) {
+				Toast.makeText(getBaseContext(), "ScrollView Clicked",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

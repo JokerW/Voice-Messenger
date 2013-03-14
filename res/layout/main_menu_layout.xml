@@ -11,19 +11,11 @@
     tools:context=".MainMenu"
     tools:ignore="HardcodedText" >
 
-    <ScrollView
-        android:id="@+id/svMessageView"
+    <ListView
+        android:id="@+id/lvMessageView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="9" >
-        
-        <TextView
-            android:id="@+id/tvTest"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="test" />
-
-    </ScrollView>
+        android:layout_weight="9" />
     
     <Button
         android:id="@+id/bMicrophone"
