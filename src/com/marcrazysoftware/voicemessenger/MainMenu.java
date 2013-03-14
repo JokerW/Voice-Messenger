@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -23,6 +24,8 @@ public class MainMenu extends Activity {
 	 */
 	private Button mMicrophoneButton;
 	private ListView mMessageList;
+	
+	private SpeechRecognizer recognizer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,7 @@ public class MainMenu extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getBaseContext(), "Mic Button Clicked",
-						Toast.LENGTH_SHORT).show();
+				runCommandListener();
 			}
 		});
 
@@ -80,6 +82,23 @@ public class MainMenu extends Activity {
 			return false;
 		} else
 			return true;
+	}
+	
+	private void runCommandListener() {
+		CommandListener listener = new CommandListener(this.mMicrophoneButton);
+		this.recognizer = SpeechRecognizer.createSpeechRecognizer(this);
+		recognizer.setRecognitionListener(listener);
+		
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.marcrazysoftware.voicemessenger");
+		
+		recognizer.startListening(intent);
+		resultDispatcher(listener.getResult());
+	}
+	
+	private void resultDispatcher(List<String> results) {
+		
 	}
 
 }
