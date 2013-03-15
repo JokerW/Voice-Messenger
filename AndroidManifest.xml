@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name="SendMessageActivity"></activity>
+        <activity android:name="PrefsActivity"></activity>
     </application>
 
 </manifest>
