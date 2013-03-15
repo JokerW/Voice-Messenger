@@ -3,6 +3,8 @@ package com.marcrazysoftware.voicemessenger;
 import java.util.List;
 import java.util.Locale;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -23,17 +26,57 @@ import android.content.pm.ResolveInfo;
 @SuppressWarnings("unused")
 public class MainMenu extends Activity implements OnInitListener {
 
+	private static final int TTS_CODE = 12345;
+	private ListView messageList;
+
 	/*
 	 * Class member variables
 	 */
 	private Button microphoneButton;
-	private ListView messageList;
 
 	private SpeechRecognizer recognizer;
 
 	private TextToSpeech TTS;
 
-	private static final int TTS_CODE = 12345;
+	/**
+	 * Checks whether or not the current device supports voice recognition.
+	 * 
+	 * @return Whether or not the phone supports voice recognition.
+	 */
+	private boolean hasRecognition() {
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		if (activities.size() == 0) {
+			return false;
+		} else
+			return true;
+	}
+
+	private boolean isConnected() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		return ni != null && ni.isConnected();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == TTS_CODE) {
+			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+				this.TTS = new TextToSpeech(this, this);
+			} else {
+				/*
+				 * There is no data, install it.
+				 */
+				Intent installTTSIntent = new Intent();
+				installTTSIntent
+						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				startActivity(installTTSIntent);
+			}
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,63 +92,24 @@ public class MainMenu extends Activity implements OnInitListener {
 		startActivityForResult(checkTTSIntent, TTS_CODE);
 	}
 
-	/**
-	 * Attach the widgets to code elements, and set click listeners.
-	 */
-	private void setWidgets(boolean isRecognitionAvailable) {
-		/*
-		 * Attach the views to code elements
-		 */
-		this.microphoneButton = (Button) findViewById(R.id.bMicrophone);
-		this.messageList = (ListView) findViewById(R.id.lvMessageView);
-
-		/*
-		 * Only enable the button if voice recognition is available
-		 */
-		this.microphoneButton.setEnabled(isRecognitionAvailable);
-
-		/*
-		 * Click listener for the microphone button
-		 */
-		this.microphoneButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				runCommandListener();
-			}
-		});
-
-		/*
-		 * Item click listener for the list view
-		 */
-		this.messageList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> adapter, View view,
-					int index, long id) {
-				/*
-				 * For now, simply notify the user that they have clicked the
-				 * listview
-				 */
-				Toast.makeText(getBaseContext(), "ListView Clicked",
-						Toast.LENGTH_SHORT).show();
-			}
-		});
+	@Override
+	public void onInit(int status) {
+		if (status == TextToSpeech.SUCCESS) {
+			int result = this.TTS.setLanguage(Locale.US);
+		}
 	}
 
 	/**
-	 * Checks whether or not the current device supports voice recognition.
+	 * Takes the necessary action based on the results of the voice recognition.
 	 * 
-	 * @return Whether or not the phone supports voice recognition.
+	 * @param results
+	 *            List containing the results of the voice recognition.
 	 */
-	private boolean hasRecognition() {
-		PackageManager pm = getPackageManager();
-		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
-				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-		if (activities.size() == 0) {
-			return false;
-		} else
-			return true;
+	private void resultDispatcher(List<String> results) {
+		/*
+		 * For now, we Toast the result for testing purposes.
+		 */
+		Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -141,46 +145,64 @@ public class MainMenu extends Activity implements OnInitListener {
 	}
 
 	/**
-	 * Takes the necessary action based on the results of the voice recognition.
-	 * 
-	 * @param results
-	 *            List containing the results of the voice recognition.
+	 * Attach the widgets to code elements, and set click listeners.
 	 */
-	private void resultDispatcher(List<String> results) {
+	private void setWidgets(boolean isRecognitionAvailable) {
 		/*
-		 * For now, we Toast the result for testing purposes.
+		 * Attach the views to code elements
 		 */
-		Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
-	}
+		this.microphoneButton = (Button) findViewById(R.id.bMicrophone);
+		this.messageList = (ListView) findViewById(R.id.lvMessageView);
 
-	@Override
-	public void onInit(int status) {
-		if (status == TextToSpeech.SUCCESS) {
-			int result = this.TTS.setLanguage(Locale.US);
-		}
-	}
+		/*
+		 * Only enable the button if voice recognition is available
+		 */
+		this.microphoneButton.setEnabled(isRecognitionAvailable);
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+		/*
+		 * Click listener for the microphone button
+		 */
+		this.microphoneButton.setOnClickListener(new OnClickListener() {
 
-		if (requestCode == TTS_CODE) {
-			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-				this.TTS = new TextToSpeech(this, this);
-			} else {
+			@Override
+			public void onClick(View v) {
 				/*
-				 * There is no data, install it.
+				 * Check for an internet connection before using voice
+				 * recognition.
 				 */
-				Intent installTTSIntent = new Intent();
-				installTTSIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				startActivity(installTTSIntent);
+				if (isConnected()) {
+					runCommandListener();
+				} else {
+					Toast.makeText(
+							getApplicationContext(),
+							"You must be connected to"
+									+ "the internet to use voice messenger",
+							Toast.LENGTH_LONG).show();
+				}
+
 			}
-		}
+		});
+
+		/*
+		 * Item click listener for the list view
+		 */
+		this.messageList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view,
+					int index, long id) {
+				/*
+				 * For now, simply notify the user that they have clicked the
+				 * listview
+				 */
+				Toast.makeText(getBaseContext(), "ListView Clicked",
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	/**
-	 * Uses the Android TTS service, to speak the string it has been passed to
+	 * Uses the Android TTS service to speak the string it has been passed to
 	 * the user.
 	 * 
 	 * @param sayThis

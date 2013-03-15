@@ -42,7 +42,7 @@ public class CommandListener implements RecognitionListener {
 	@Override
 	public void onEndOfSpeech() {
 		/*
-		 * The user is done talking, activate the mike button.
+		 * The user is done talking, activate the mic button.
 		 */
 		this.micButton.setEnabled(true);
 	}
