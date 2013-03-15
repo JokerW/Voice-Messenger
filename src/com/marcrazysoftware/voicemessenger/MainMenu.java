@@ -27,11 +27,9 @@ import android.content.pm.ResolveInfo;
 public class MainMenu extends Activity implements OnInitListener {
 
 	private static final int TTS_CODE = 12345;
-	private ListView messageList;
 
-	/*
-	 * Class member variables
-	 */
+	private ListView messageList;
+	private Button sendMessageButton;
 	private Button microphoneButton;
 
 	private SpeechRecognizer recognizer;
@@ -165,6 +163,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		 */
 		this.microphoneButton = (Button) findViewById(R.id.bMicrophone);
 		this.messageList = (ListView) findViewById(R.id.lvMessageView);
+		this.sendMessageButton = (Button) findViewById(R.id.bSendMessage);
 
 		/*
 		 * Only enable the button if voice recognition is available
@@ -188,11 +187,28 @@ public class MainMenu extends Activity implements OnInitListener {
 					Toast.makeText(
 							getApplicationContext(),
 							"You must be connected to"
-									+ "the internet to use voice messenger",
+									+ "the internet to use Voice Messenger",
 							Toast.LENGTH_LONG).show();
 				}
 
 			}
+		});
+		
+		/*
+		 * On Click Listener for the Send Message Button
+		 */
+		this.sendMessageButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				/*
+				 * Start up the SendMessageActivity
+				 */
+				Intent intent = new Intent(MainMenu.this,
+						SendMessageActivity.class);
+				startActivity(intent);
+			}
+
 		});
 
 		/*
