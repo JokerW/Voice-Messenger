@@ -3,6 +3,8 @@ package com.marcrazysoftware.voicemessenger;
 import java.util.List;
 import java.util.Locale;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -17,11 +19,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-@SuppressWarnings("unused")
 public class MainMenu extends Activity implements OnInitListener {
 
 	private static final int TTS_CODE = 12345;
@@ -43,13 +45,13 @@ public class MainMenu extends Activity implements OnInitListener {
 		return ri.size() != 0;
 	}
 
-	private boolean hasSpeechRecognition() {
-		return false;
-	}
-
 	private boolean isConnected() {
-		PackageManager pm = this.getPackageManager();
-		return false;
+		/*
+		 * Check for a data connection.
+		 */
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		return netInfo != null && netInfo.isConnected();
 	}
 
 	@Override
@@ -191,17 +193,24 @@ public class MainMenu extends Activity implements OnInitListener {
 		if (results.size() > 0) {
 			this.TTS.speak(results.get(0), TextToSpeech.QUEUE_FLUSH, null);
 			Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(this, "Please Try Again", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	private void runSpeechRecognition() {
-		Intent recogIntent = new Intent(
-				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-		recogIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-				"com.marcrazysoftware.voicemessenger");
-		recogIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		this.recognizer.startListening(recogIntent);
+		if (isConnected()) {
+			Intent recogIntent = new Intent(
+					RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			recogIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+					"com.marcrazysoftware.voicemessenger");
+			recogIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			this.recognizer.startListening(recogIntent);
+		} else {
+			Toast.makeText(this, "Voice Messenger needs a data connection",
+					Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private void setWidgets() {
@@ -235,7 +244,8 @@ public class MainMenu extends Activity implements OnInitListener {
 				/*
 				 * Start the sendMessageActivity.
 				 */
-				Intent intent = new Intent(MainMenu.this, SendMessageActivity.class);
+				Intent intent = new Intent(MainMenu.this,
+						SendMessageActivity.class);
 				intent.putExtra("hasRecipient", false);
 				startActivity(intent);
 			}
