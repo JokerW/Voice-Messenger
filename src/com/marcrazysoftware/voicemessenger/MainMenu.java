@@ -26,7 +26,7 @@ import android.content.pm.ResolveInfo;
 
 public class MainMenu extends Activity implements OnInitListener {
 
-	private static final int TTS_CODE = 12345;
+	private static final int TTS_CODE = 1234;
 
 	private ListView messageListView;
 	private Button micButton;
