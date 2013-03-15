@@ -22,8 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 @SuppressWarnings("unused")
-public class MainMenu extends Activity implements OnInitListener,
-		RecognitionListener {
+public class MainMenu extends Activity implements OnInitListener {
 
 	private static final int TTS_CODE = 12345;
 
@@ -32,6 +31,7 @@ public class MainMenu extends Activity implements OnInitListener,
 	private Button sendMessageButton;
 
 	private TextToSpeech TTS;
+	private SpeechRecognizer recognizer;
 
 	private boolean hasComponents() {
 		/*
@@ -68,16 +68,6 @@ public class MainMenu extends Activity implements OnInitListener,
 	}
 
 	@Override
-	public void onBeginningOfSpeech() {
-		this.micButton.setEnabled(false);
-	}
-
-	@Override
-	public void onBufferReceived(byte[] buffer) {
-
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_menu_layout);
@@ -97,6 +87,10 @@ public class MainMenu extends Activity implements OnInitListener,
 			 * The device has voice recognition, set up the widgets.
 			 */
 			setWidgets();
+			/*
+			 * Instantiate the voice recognizer.
+			 */
+			setRecognizer();
 		} else {
 			/*
 			 * This device does not support voice recognition, inform the user.
@@ -107,28 +101,73 @@ public class MainMenu extends Activity implements OnInitListener,
 		}
 	}
 
+	private void setRecognizer() {
+		this.recognizer = SpeechRecognizer.createSpeechRecognizer(this);
+		this.recognizer.setRecognitionListener(new RecognitionListener() {
+
+			@Override
+			public void onBeginningOfSpeech() {
+				micButton.setEnabled(false);
+
+			}
+
+			@Override
+			public void onBufferReceived(byte[] buffer) {
+
+			}
+
+			@Override
+			public void onEndOfSpeech() {
+				micButton.setEnabled(true);
+
+			}
+
+			@Override
+			public void onError(int error) {
+
+			}
+
+			@Override
+			public void onEvent(int eventType, Bundle params) {
+
+			}
+
+			@Override
+			public void onPartialResults(Bundle partialResults) {
+
+			}
+
+			@Override
+			public void onReadyForSpeech(Bundle params) {
+
+			}
+
+			@Override
+			public void onResults(Bundle results) {
+				List<String> stringList = results
+						.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+				resultDispatcher(stringList);
+
+			}
+
+			@Override
+			public void onRmsChanged(float rmsdB) {
+
+			}
+
+		});
+	}
+
 	@Override
 	protected void onDestroy() {
 		if (this.TTS != null) {
 			this.TTS.stop();
 			this.TTS.shutdown();
 		}
+		if (this.recognizer != null) {
+			this.recognizer.destroy();
+		}
 		super.onDestroy();
-	}
-
-	@Override
-	public void onEndOfSpeech() {
-		this.micButton.setEnabled(true);
-	}
-
-	@Override
-	public void onError(int error) {
-
-	}
-
-	@Override
-	public void onEvent(int eventType, Bundle params) {
-
 	}
 
 	@Override
@@ -145,33 +184,24 @@ public class MainMenu extends Activity implements OnInitListener,
 		}
 	}
 
-	@Override
-	public void onPartialResults(Bundle partialResults) {
-
-	}
-
-	@Override
-	public void onReadyForSpeech(Bundle params) {
-
-	}
-
-	@Override
-	public void onResults(Bundle results) {
-		resultDispatcher(results
-				.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION));
-	}
-
-	@Override
-	public void onRmsChanged(float rmsdB) {
-
-	}
-
 	private void resultDispatcher(List<String> results) {
-
+		/*
+		 * For now, toast and speek the result for testing purposes.
+		 */
+		if (results.size() > 0) {
+			this.TTS.speak(results.get(0), TextToSpeech.QUEUE_FLUSH, null);
+			Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private void runSpeechRecognition() {
-
+		Intent recogIntent = new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		recogIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+				"com.marcrazysoftware.voicemessenger");
+		recogIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		this.recognizer.startListening(recogIntent);
 	}
 
 	private void setWidgets() {
@@ -193,8 +223,7 @@ public class MainMenu extends Activity implements OnInitListener,
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-
+				runSpeechRecognition();
 			}
 
 		});
@@ -203,8 +232,12 @@ public class MainMenu extends Activity implements OnInitListener,
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
+				/*
+				 * Start the sendMessageActivity.
+				 */
+				Intent intent = new Intent(MainMenu.this, SendMessageActivity.class);
+				intent.putExtra("hasRecipient", false);
+				startActivity(intent);
 			}
 
 		});
