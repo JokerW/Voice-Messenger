@@ -141,7 +141,7 @@ public class MainMenu extends Activity implements OnInitListener {
 
 			@Override
 			public void onReadyForSpeech(Bundle params) {
-
+				micButton.setEnabled(false);
 			}
 
 			@Override
