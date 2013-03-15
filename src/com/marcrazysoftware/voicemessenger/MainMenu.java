@@ -23,16 +23,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-@SuppressWarnings("unused")
 public class MainMenu extends Activity implements OnInitListener {
 
 	private static final int TTS_CODE = 12345;
 
 	private ListView messageList;
-	private Button sendMessageButton;
 	private Button microphoneButton;
-
 	private SpeechRecognizer recognizer;
+
+	private Button sendMessageButton;
 
 	private TextToSpeech TTS;
 
@@ -103,9 +102,21 @@ public class MainMenu extends Activity implements OnInitListener {
 	}
 
 	@Override
+	protected void onDestroy() {
+		if (this.TTS != null) {
+			/*
+			 * Make sure to stop and shutdown TTS before the app closes.
+			 */
+			this.TTS.stop();
+			this.TTS.shutdown();
+		}
+		super.onDestroy();
+	}
+
+	@Override
 	public void onInit(int status) {
 		if (status == TextToSpeech.SUCCESS) {
-			int result = this.TTS.setLanguage(Locale.US);
+			this.TTS.setLanguage(Locale.US);
 		}
 	}
 
@@ -120,6 +131,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		 * For now, we Toast the result for testing purposes.
 		 */
 		Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
+		this.speak(results.get(0));
 	}
 
 	/**
@@ -152,6 +164,12 @@ public class MainMenu extends Activity implements OnInitListener {
 		 */
 		recognizer.startListening(intent);
 		resultDispatcher(listener.getResult());
+	}
+
+	private void sendAMessage(String recipient) {
+		Intent intent = new Intent(this, SendMessageActivity.class);
+		intent.putExtra("recipient", recipient);
+		startActivity(intent);
 	}
 
 	/**
@@ -193,7 +211,7 @@ public class MainMenu extends Activity implements OnInitListener {
 
 			}
 		});
-		
+
 		/*
 		 * On Click Listener for the Send Message Button
 		 */
@@ -204,9 +222,7 @@ public class MainMenu extends Activity implements OnInitListener {
 				/*
 				 * Start up the SendMessageActivity
 				 */
-				Intent intent = new Intent(MainMenu.this,
-						SendMessageActivity.class);
-				startActivity(intent);
+				sendAMessage(null);
 			}
 
 		});
