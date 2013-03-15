@@ -44,16 +44,25 @@ public class MainMenu extends Activity implements OnInitListener {
 	 * @return Whether or not the phone supports voice recognition.
 	 */
 	private boolean hasRecognition() {
+		/*
+		 * Grab the package manager, check for the appropriate speech
+		 * recognition activities.
+		 */
 		PackageManager pm = getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-		if (activities.size() == 0) {
-			return false;
-		} else
-			return true;
+		return activities.size() != 0;
 	}
 
+	/**
+	 * Determines whether or not the device is connected to a network.
+	 * 
+	 * @return {@code NetworkInfo.isConnected}
+	 */
 	private boolean isConnected() {
+		/*
+		 * Grab the connectivity manager, check for a network connection.
+		 */
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo ni = cm.getActiveNetworkInfo();
 		return ni != null && ni.isConnected();
@@ -65,6 +74,9 @@ public class MainMenu extends Activity implements OnInitListener {
 
 		if (requestCode == TTS_CODE) {
 			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+				/*
+				 * There is TTS data, set it up.
+				 */
 				this.TTS = new TextToSpeech(this, this);
 			} else {
 				/*
