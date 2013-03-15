@@ -1,6 +1,7 @@
 package com.marcrazysoftware.voicemessenger;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -154,8 +155,9 @@ public class MainMenu extends Activity implements OnInitListener {
 
 	@Override
 	public void onInit(int status) {
-		// TODO Auto-generated method stub
-
+		if (status == TextToSpeech.SUCCESS) {
+			int result = this.TTS.setLanguage(Locale.US);
+		}
 	}
 
 	@Override
