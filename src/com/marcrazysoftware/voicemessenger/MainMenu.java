@@ -3,6 +3,7 @@ package com.marcrazysoftware.voicemessenger;
 import java.util.List;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -12,9 +13,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 @SuppressWarnings("unused")
 public class MainMenu extends Activity implements OnInitListener,
@@ -31,10 +34,38 @@ public class MainMenu extends Activity implements OnInitListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setContentView(R.layout.main_menu_layout);
+
 		/*
-		 * TODO: Set the widgets if speech recognition is available.
+		 * Check for TTS data.
 		 */
+
+		/*
+		 * Check for voice recognition.
+		 */
+		if (hasComponents()) {
+			/*
+			 * The device has voice recognition, set up the widgets.
+			 */
+			setWidgets();
+		} else {
+			/*
+			 * This device does not support voice recognition, inform the user.
+			 */
+			Toast.makeText(this,
+					"Your device does not support voice recognition =(",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
+	private boolean hasComponents() {
+		/*
+		 * Check for voice recognition.
+		 */
+		PackageManager manager = getPackageManager();
+		List<ResolveInfo> ri = manager.queryIntentActivities(new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		return ri.size() != 0;
 	}
 
 	@Override
@@ -50,9 +81,9 @@ public class MainMenu extends Activity implements OnInitListener,
 		}
 		super.onDestroy();
 	}
-	
+
 	private void runSpeechRecognition() {
-		
+
 	}
 
 	@Override
@@ -109,40 +140,40 @@ public class MainMenu extends Activity implements OnInitListener,
 	private void resultDispatcher(List<String> results) {
 
 	}
-	
+
 	private void setWidgets() {
 		this.messageListView = (ListView) findViewById(R.id.lvMessageView);
 		this.micButton = (Button) findViewById(R.id.bMicrophone);
 		this.sendMessageButton = (Button) findViewById(R.id.bSendMessage);
-		
+
 		this.messageListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		this.micButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
-		
+
 		this.sendMessageButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
 	}
 
@@ -150,7 +181,7 @@ public class MainMenu extends Activity implements OnInitListener,
 		PackageManager pm = this.getPackageManager();
 		return false;
 	}
-	
+
 	private boolean hasSpeechRecognition() {
 		return false;
 	}
