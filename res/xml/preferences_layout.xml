@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/prefs_startup_behaviour" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:summary="WARNING: This sucks battery, only use while plugged in.\nVoice recognition defaults to on so Voice Messenger is always ready for a command."
+            android:title="Always Listening"
+            android:key="alwaysListen" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:summary="Always read back before sending text messages"
+            android:title="Always Read Back"
+            android:key="alwaysReadBack" />
+    </PreferenceCategory>
     
+    <PreferenceCategory android:title="@string/prefs_interaction">
+        
+    </PreferenceCategory>
 
 </PreferenceScreen>
