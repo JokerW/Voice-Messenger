@@ -64,6 +64,7 @@ public class MainMenu extends Activity implements OnInitListener {
 	    	Intent intent = new Intent(this, PrefsActivity.class);
 	    	startActivity(intent);
 	    }
+	    
 	    return super.onOptionsItemSelected(item);
 	}
 
