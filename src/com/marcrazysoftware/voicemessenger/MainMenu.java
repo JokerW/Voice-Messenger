@@ -43,9 +43,9 @@ public class MainMenu extends Activity implements OnInitListener {
 		 * Check for voice recognition.
 		 */
 		PackageManager manager = getPackageManager();
-		List<ResolveInfo> ri = manager.queryIntentActivities(new Intent(
+		List<ResolveInfo> rin = manager.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-		return ri.size() != 0;
+		return rin.size() != 0;
 	}
 
 	@Override
