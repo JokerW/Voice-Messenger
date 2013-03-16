@@ -11,6 +11,9 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -43,6 +46,25 @@ public class MainMenu extends Activity implements OnInitListener {
 		List<ResolveInfo> ri = manager.queryIntentActivities(new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		return ri.size() != 0;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		/*
+		 * Inflate the menu.
+		 */
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_layout, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    if (item.getItemId() == R.id.settings) {
+	    	Intent intent = new Intent(this, PrefsActivity.class);
+	    	startActivity(intent);
+	    }
+	    return super.onOptionsItemSelected(item);
 	}
 
 	private boolean isConnected() {
