@@ -3,19 +3,23 @@
 
     <PreferenceCategory android:title="@string/prefs_startup_behaviour" >
         <CheckBoxPreference
-            android:defaultValue="true"
-            android:summary="WARNING: This sucks battery, only use while plugged in.\nVoice recognition defaults to on so Voice Messenger is always ready for a command."
+            android:summaryOn="WARNING: This sucks battery, only use while plugged in.\nVoice recognition defaults to ON."
+            android:summaryOff="You must press the Speak Now button to give commands in the main menu."
             android:title="Always Listening"
             android:key="alwaysListen" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:summary="Always read back before sending text messages"
+            android:summaryOn="Text messages will be read back to you before sending."
+            android:summaryOff="You must ask for your text messages to be read back to you."
             android:title="Always Read Back"
             android:key="alwaysReadBack" />
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/prefs_interaction">
-        
+        <Preference
+            android:summary="Aliases for contacts such as 'mom' or 'dad'"
+            android:title="Aliases"
+            android:key="aliases" />
     </PreferenceCategory>
 
 </PreferenceScreen>
