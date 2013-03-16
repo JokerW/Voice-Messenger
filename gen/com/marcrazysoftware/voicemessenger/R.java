@@ -22,23 +22,28 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int settings=0x7f020001;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f080000;
-        public static final int bCancel=0x7f08000a;
-        public static final int bMicrophone=0x7f080003;
-        public static final int bReadBack=0x7f080008;
-        public static final int bSend=0x7f080009;
-        public static final int bSendMessage=0x7f080004;
-        public static final int etMessageBody=0x7f080007;
-        public static final int etRecipient=0x7f080006;
-        public static final int llButtonLayout=0x7f080002;
-        public static final int lvMessageView=0x7f080001;
-        public static final int textView=0x7f080005;
+        public static final int LinearLayout1=0x7f090000;
+        public static final int bCancel=0x7f09000a;
+        public static final int bMicrophone=0x7f090003;
+        public static final int bReadBack=0x7f090008;
+        public static final int bSend=0x7f090009;
+        public static final int bSendMessage=0x7f090004;
+        public static final int etMessageBody=0x7f090007;
+        public static final int etRecipient=0x7f090006;
+        public static final int llButtonLayout=0x7f090002;
+        public static final int lvMessageView=0x7f090001;
+        public static final int settings=0x7f09000b;
+        public static final int textView=0x7f090005;
     }
     public static final class layout {
         public static final int main_menu_layout=0x7f030000;
         public static final int send_message_layout=0x7f030001;
+    }
+    public static final class menu {
+        public static final int menu_layout=0x7f080000;
     }
     public static final class string {
         public static final int action_settings=0x7f060001;
