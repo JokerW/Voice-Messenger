@@ -10,11 +10,9 @@ public class PrefsActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		/*
-		 * I'm aware that this is deprecated, I still use it to keep backwards
-		 * compatibility. When more people move to ICS, this will be done the
-		 * recommended way with fragments.
+		 * Load the preferences, simple as that.
 		 */
-		addPreferencesFromResource(R.xml.preferences_layout);
+		this.addPreferencesFromResource(R.xml.preferences_layout);
 	}
 
 }
