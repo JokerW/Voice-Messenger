@@ -1,16 +1,20 @@
 package com.marcrazysoftware.voicemessenger;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 @SuppressWarnings("unused")
-public class SendMessageActivity extends Activity {
+public class SendMessageActivity extends Activity implements OnInitListener {
 
 	private Button sendButton;
 	private Button cancelButton;
@@ -26,6 +30,15 @@ public class SendMessageActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.send_message_layout);
+		
+		/*
+		 * Set up the text-to-speech service.
+		 */
+		this.TTS = new TextToSpeech(this, this);
+		
+		/*
+		 * Set up the widgets.
+		 */
 		setWidgets();
 	}
 
@@ -46,6 +59,9 @@ public class SendMessageActivity extends Activity {
 	 * Sets the OnClickListeners for the widgets in {@code this}.
 	 */
 	private void setListeners() {
+		/*
+		 * Click listener for the send button.
+		 */
 		this.sendButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -54,6 +70,9 @@ public class SendMessageActivity extends Activity {
 			}
 		});
 
+		/*
+		 * Click listener for the cancel button
+		 */
 		this.cancelButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -63,6 +82,9 @@ public class SendMessageActivity extends Activity {
 
 		});
 
+		/*
+		 * Click listener for the read back button.
+		 */
 		this.readBackButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -71,6 +93,16 @@ public class SendMessageActivity extends Activity {
 			}
 
 		});
+	}
+
+	@Override
+	public void onInit(int status) {
+		if (status == TextToSpeech.SUCCESS) {
+			this.TTS.setLanguage(Locale.US);
+		} else {
+			Toast.makeText(this, "FATAL: TTS Has Failed", Toast.LENGTH_LONG).show();
+		}
+		
 	}
 
 }
