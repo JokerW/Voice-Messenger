@@ -2,6 +2,8 @@ package com.marcrazysoftware.voicemessenger;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,6 +18,9 @@ public class SendMessageActivity extends Activity {
 
 	private EditText recipientBox;
 	private EditText messageBodyBox;
+	
+	private TextToSpeech TTS;
+	private SpeechRecognizer recognizer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
