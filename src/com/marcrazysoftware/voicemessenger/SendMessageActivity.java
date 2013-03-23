@@ -31,7 +31,9 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 	private EditText recipientBox;
 	private EditText messageBodyBox;
 	
-	private TextView currentState;
+	private TextView stateUI;
+	
+	private State currentState;
 
 	private TextToSpeech TTS;
 	private SpeechRecognizer recognizer;
@@ -143,7 +145,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		this.recipientBox = (EditText) findViewById(R.id.etRecipient);
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
 		
-		this.currentState = (TextView) findViewById(R.id.tvCurrentState);
+		this.stateUI = (TextView) findViewById(R.id.tvCurrentState);
 
 		setListeners();
 	}
