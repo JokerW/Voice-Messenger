@@ -3,6 +3,7 @@ package com.marcrazysoftware.voicemessenger;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
@@ -109,6 +110,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		this.cancelButton = (Button) findViewById(R.id.bCancel);
 		this.readBackButton = (Button) findViewById(R.id.bReadBack);
 		this.speakButton = (Button) findViewById(R.id.bMessageSpeak);
+
 		this.recipientBox = (EditText) findViewById(R.id.etRecipient);
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
 
@@ -126,7 +128,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onClick(View v) {
-
+				Toast.makeText(getBaseContext(), "Send Button Clicked", Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -137,7 +139,10 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onClick(View v) {
-
+				/*
+				 * Return to the main menu.
+				 */
+				startActivity(new Intent(SendMessageActivity.this, MainMenu.class));
 			}
 
 		});
@@ -149,7 +154,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onClick(View v) {
-
+				Toast.makeText(getBaseContext(), "Read Back Button Clicked", Toast.LENGTH_SHORT).show();
 			}
 
 		});
@@ -164,6 +169,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 				/*
 				 * TODO: Set speech recognition.
 				 */
+				Toast.makeText(getBaseContext(), "Speak Button Clicked", Toast.LENGTH_SHORT).show();
 			}
 
 		});
