@@ -26,16 +26,17 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout1=0x7f090000;
-        public static final int bCancel=0x7f09000a;
+        public static final int bCancel=0x7f090009;
+        public static final int bMessageSpeak=0x7f09000a;
         public static final int bMicrophone=0x7f090003;
         public static final int bReadBack=0x7f090008;
-        public static final int bSend=0x7f090009;
+        public static final int bSend=0x7f090007;
         public static final int bSendMessage=0x7f090004;
-        public static final int etMessageBody=0x7f090007;
+        public static final int etMessageBody=0x7f09000b;
         public static final int etRecipient=0x7f090006;
         public static final int llButtonLayout=0x7f090002;
         public static final int lvMessageView=0x7f090001;
-        public static final int settings=0x7f09000b;
+        public static final int settings=0x7f09000c;
         public static final int textView=0x7f090005;
     }
     public static final class layout {

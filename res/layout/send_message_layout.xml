@@ -19,26 +19,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp" />
 
-    <EditText
-        android:id="@+id/etMessageBody"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/etRecipient"
-        android:layout_marginTop="88dp"
-        android:ems="10"
-        android:hint="Message Body"
-        android:inputType="textMultiLine" />
-
-    <Button
-        android:id="@+id/bReadBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/etMessageBody"
-        android:layout_marginTop="46dp"
-        android:text="Read Back" />
-
     <Button
         android:id="@+id/bSend"
         android:layout_width="fill_parent"
@@ -54,5 +34,36 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/bSend"
         android:text="Cancel" />
+
+    <Button
+        android:id="@+id/bMessageSpeak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etMessageBody"
+        android:text="Speak Now" />
+
+    <EditText
+        android:id="@+id/etMessageBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etRecipient"
+        android:layout_marginTop="42dp"
+        android:ems="10"
+        android:hint="Message Body"
+        android:inputType="textMultiLine" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/bReadBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bMessageSpeak"
+        android:layout_marginTop="89dp"
+        android:text="Read Back" />
 
 </RelativeLayout>
