@@ -207,10 +207,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onClick(View v) {
-				/*
-				 * TODO: Set speech recognition.
-				 */
-				Toast.makeText(getBaseContext(), "Speak Button Clicked", Toast.LENGTH_SHORT).show();
+				startVoiceRecognition();
 			}
 
 		});
