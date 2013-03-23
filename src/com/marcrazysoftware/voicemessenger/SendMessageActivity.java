@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-@SuppressWarnings("unused")
 public class SendMessageActivity extends Activity implements OnInitListener {
 
 	private Button sendButton;
@@ -224,7 +223,5 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		} else {
 			Toast.makeText(this, "FATAL: TTS Has Failed", Toast.LENGTH_LONG).show();
 		}
-
 	}
-
 }
