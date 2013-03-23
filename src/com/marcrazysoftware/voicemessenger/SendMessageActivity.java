@@ -153,7 +153,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 			}
 
 		});
-		
+
 		/*
 		 * Click listener for the read back button.
 		 */
@@ -165,7 +165,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 				 * TODO: Set speech recognition.
 				 */
 			}
-			
+
 		});
 	}
 
@@ -174,8 +174,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		if (status == TextToSpeech.SUCCESS) {
 			this.TTS.setLanguage(Locale.US);
 		} else {
-			Toast.makeText(this, "FATAL: TTS Has Failed", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "FATAL: TTS Has Failed", Toast.LENGTH_LONG).show();
 		}
 
 	}

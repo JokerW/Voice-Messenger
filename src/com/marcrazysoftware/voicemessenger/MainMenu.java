@@ -43,8 +43,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		 * Check for voice recognition.
 		 */
 		PackageManager manager = getPackageManager();
-		List<ResolveInfo> rin = manager.queryIntentActivities(new Intent(
-				RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		List<ResolveInfo> rin = manager.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		return rin.size() != 0;
 	}
 
@@ -57,15 +56,15 @@ public class MainMenu extends Activity implements OnInitListener {
 		inflater.inflate(R.menu.menu_layout, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    if (item.getItemId() == R.id.settings) {
-	    	Intent intent = new Intent(this, PrefsActivity.class);
-	    	startActivity(intent);
-	    }
-	    
-	    return super.onOptionsItemSelected(item);
+		if (item.getItemId() == R.id.settings) {
+			Intent intent = new Intent(this, PrefsActivity.class);
+			startActivity(intent);
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	private boolean isConnected() {
@@ -85,8 +84,7 @@ public class MainMenu extends Activity implements OnInitListener {
 				this.TTS = new TextToSpeech(this, this);
 			} else {
 				Intent installIntent = new Intent();
-				installIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 				startActivity(installIntent);
 			}
 		}
@@ -120,9 +118,7 @@ public class MainMenu extends Activity implements OnInitListener {
 			/*
 			 * This device does not support voice recognition, inform the user.
 			 */
-			Toast.makeText(this,
-					"Your device does not support voice recognition =(",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Your device does not support voice recognition =(", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -169,8 +165,7 @@ public class MainMenu extends Activity implements OnInitListener {
 
 			@Override
 			public void onResults(Bundle results) {
-				List<String> stringList = results
-						.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+				List<String> stringList = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 				resultDispatcher(stringList);
 
 			}
@@ -204,8 +199,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		if (status == TextToSpeech.SUCCESS) {
 			this.TTS.setLanguage(Locale.US);
 		} else {
-			Toast.makeText(this, "FATAL: TTS HAS FAILED", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "FATAL: TTS HAS FAILED", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -223,16 +217,12 @@ public class MainMenu extends Activity implements OnInitListener {
 
 	private void runSpeechRecognition() {
 		if (isConnected()) {
-			Intent recogIntent = new Intent(
-					RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-			recogIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-					"com.marcrazysoftware.voicemessenger");
-			recogIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			Intent recogIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			recogIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.marcrazysoftware.voicemessenger");
+			recogIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 			this.recognizer.startListening(recogIntent);
 		} else {
-			Toast.makeText(this, "Voice Messenger needs a data connection",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Voice Messenger needs a data connection", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -244,10 +234,8 @@ public class MainMenu extends Activity implements OnInitListener {
 		this.messageListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				Toast.makeText(getBaseContext(), "ListView Clicked",
-						Toast.LENGTH_SHORT).show();
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				Toast.makeText(getBaseContext(), "ListView Clicked", Toast.LENGTH_SHORT).show();
 
 			}
 		});
@@ -268,8 +256,7 @@ public class MainMenu extends Activity implements OnInitListener {
 				/*
 				 * Start the sendMessageActivity.
 				 */
-				Intent intent = new Intent(MainMenu.this,
-						SendMessageActivity.class);
+				Intent intent = new Intent(MainMenu.this, SendMessageActivity.class);
 				intent.putExtra("hasRecipient", false);
 				startActivity(intent);
 			}
