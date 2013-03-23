@@ -1,11 +1,16 @@
 package com.marcrazysoftware.voicemessenger;
 
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -51,6 +56,20 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 	}
 
+	/**
+	 * Checks for the devices data connection.
+	 * 
+	 * @return network connectivity status.
+	 */
+	private boolean isConnected() {
+		/*
+		 * Check for a network connection, return whether or not there is one.
+		 */
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		return netInfo != null && netInfo.isConnected();
+	}
+
 	private void setComponents() {
 		this.recognizer = SpeechRecognizer.createSpeechRecognizer(this);
 		this.recognizer.setRecognitionListener(new RecognitionListener() {
@@ -67,7 +86,10 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onEndOfSpeech() {
-
+				/*
+				 * Re-enable speech recognition.
+				 */
+				speakButton.setEnabled(true);
 			}
 
 			@Override
@@ -87,12 +109,17 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onReadyForSpeech(Bundle params) {
-
+				speakButton.setEnabled(false);
 			}
 
 			@Override
 			public void onResults(Bundle results) {
-
+				/*
+				 * For now, toast and speak the result for testing purposes.
+				 */
+				List<String> text = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+				Toast.makeText(getBaseContext(), text.get(0), Toast.LENGTH_LONG).show();
+				SendMessageActivity.this.TTS.speak(text.get(0), TextToSpeech.QUEUE_FLUSH, null);
 			}
 
 			@Override
@@ -115,6 +142,21 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
 
 		setListeners();
+	}
+
+	private void startVoiceRecognition() {
+		/*
+		 * Check for a network connection, if one is present, start voice
+		 * recognition.
+		 */
+		if (isConnected()) {
+			Intent recogIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			recogIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.marcrazysoftware.voicemessenger");
+			recogIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			this.recognizer.startListening(recogIntent);
+		} else {
+			Toast.makeText(this, "Voice Messenger needs a data connection", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	/**
