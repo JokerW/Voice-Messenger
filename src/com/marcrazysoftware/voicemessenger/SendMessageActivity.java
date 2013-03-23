@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SendMessageActivity extends Activity implements OnInitListener {
@@ -29,6 +30,8 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 	private EditText recipientBox;
 	private EditText messageBodyBox;
+	
+	private TextView currentState;
 
 	private TextToSpeech TTS;
 	private SpeechRecognizer recognizer;
@@ -139,6 +142,8 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 		this.recipientBox = (EditText) findViewById(R.id.etRecipient);
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
+		
+		this.currentState = (TextView) findViewById(R.id.tvCurrentState);
 
 		setListeners();
 	}

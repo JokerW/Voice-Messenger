@@ -36,8 +36,9 @@ public final class R {
         public static final int etRecipient=0x7f090006;
         public static final int llButtonLayout=0x7f090002;
         public static final int lvMessageView=0x7f090001;
-        public static final int settings=0x7f09000c;
+        public static final int settings=0x7f09000d;
         public static final int textView=0x7f090005;
+        public static final int tvCurrentState=0x7f09000c;
     }
     public static final class layout {
         public static final int main_menu_layout=0x7f030000;
