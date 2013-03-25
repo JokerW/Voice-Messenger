@@ -30,13 +30,19 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 	private EditText recipientBox;
 	private EditText messageBodyBox;
-	
+
 	private TextView stateUI;
-	
+
 	private State currentState;
 
 	private TextToSpeech TTS;
 	private SpeechRecognizer recognizer;
+
+	/*
+	 * Message details.
+	 */
+	private String recipient;
+	private String messageBody;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,18 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		 * Set up the text-to-speech service.
 		 */
 		this.TTS = new TextToSpeech(this, this);
+
+		/*
+		 * Set the state based on the intent received from the calling activity.
+		 */
+		Intent intent = getIntent();
+		String recipient = intent.getStringExtra("recipient");
+		if (recipient != null) {
+			this.recipient = recipient;
+			this.currentState = State.LISTENING_BODY;
+		} else {
+			this.currentState = State.LISTENING_RECIPIENT;
+		}
 
 		/*
 		 * Set up the widgets.
@@ -144,8 +162,23 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 		this.recipientBox = (EditText) findViewById(R.id.etRecipient);
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
-		
+
 		this.stateUI = (TextView) findViewById(R.id.tvCurrentState);
+
+		/*
+		 * TODO: Determine whether or not the text boxes are editable based on
+		 * the shared preferences.
+		 */
+		
+		/*
+		 * Set the text of the text boxes as necessary.
+		 */
+		if (this.recipient != null) {
+			this.recipientBox.setText(this.recipient);
+		}
+		if (this.messageBody != null) {
+			this.messageBodyBox.setText(this.messageBody);
+		}
 
 		setListeners();
 	}
