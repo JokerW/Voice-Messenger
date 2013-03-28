@@ -6,7 +6,7 @@
             android:summaryOn="WARNING: This sucks battery, only use while plugged in.\nVoice recognition defaults to ON."
             android:summaryOff="You must press the Speak Now button to give commands in the main menu."
             android:title="Always Listening"
-            android:key="alwaysListen" />
+            android:key="alwaysListening" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:summaryOn="Text messages will be read back to you before sending."
@@ -20,6 +20,12 @@
             android:summary="Aliases for contacts such as 'mom' or 'dad'"
             android:title="Aliases"
             android:key="aliases" />
+        <CheckBoxPreference 
+            android:defaultValue="true"
+            android:summaryOn="The keyboard is enabled"
+            android:summaryOff="The keyboard is disabled" 
+            android:title="Keyboard Enabled"
+            android:key="keyboardEnabled" />
     </PreferenceCategory>
 
 </PreferenceScreen>

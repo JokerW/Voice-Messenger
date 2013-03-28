@@ -6,9 +6,11 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -21,6 +23,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * @author Daniel Marchese
+ */
+@SuppressWarnings("unused")
 public class SendMessageActivity extends Activity implements OnInitListener {
 
 	private Button sendButton;
@@ -40,10 +46,26 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 	private String recipient;
 	private String messageBody;
 
+	/*
+	 * Holds the shared preferences.
+	 */
+	private SharedPreferences prefs;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.send_message_layout);
+
+		/*
+		 * Get the shared preferences.
+		 */
+		this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		/*
+		 * Set up the values based on the gathered intent.
+		 */
+		Intent intent = getIntent();
+		this.recipient = intent.getStringExtra("recipient");
 
 		/*
 		 * Set up the text-to-speech service.
@@ -140,7 +162,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 	}
 
 	/**
-	 * Attachs the widgets to code elements for later use.
+	 * Attaches the widgets to code elements for later use.
 	 */
 	private void setWidgets() {
 		this.sendButton = (Button) findViewById(R.id.bSend);
@@ -152,9 +174,19 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
 
 		/*
-		 * TODO: Determine whether or not the text boxes are editable based on
-		 * the shared preferences.
+		 * Set the text of the recipient box if there was a recipient string
+		 * passed with the intent.
 		 */
+		if (this.recipient != null) {
+			this.recipientBox.setText(this.recipient);
+		}
+
+		/*
+		 * Set whether or not the textboxes are editable based on the
+		 * "keyboardEnabled" preference.
+		 */
+		this.recipientBox.setEnabled(this.prefs.getBoolean("keyboardEnabled", true));
+		this.messageBodyBox.setEnabled(this.prefs.getBoolean("keyboardEnabled", true));
 
 		setListeners();
 	}

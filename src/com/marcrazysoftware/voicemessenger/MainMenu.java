@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
@@ -37,6 +39,11 @@ public class MainMenu extends Activity implements OnInitListener {
 
 	private TextToSpeech TTS;
 	private SpeechRecognizer recognizer;
+
+	/*
+	 * For accessing the Application Preferences.
+	 */
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +65,38 @@ public class MainMenu extends Activity implements OnInitListener {
 			 * The device has voice recognition, set up the widgets.
 			 */
 			setWidgets();
+
 			/*
 			 * Instantiate the voice recognizer.
 			 */
 			setRecognizer();
+
+			/*
+			 * Access the preference manager.
+			 */
+			this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+			/*
+			 * Start voice recognition if the alwaysListening pref is set to
+			 * true.
+			 */
+			if (this.prefs.getBoolean("alwaysListening", false)) {
+				runSpeechRecognition();
+			}
+			
 		} else {
 			/*
 			 * This device does not support voice recognition, inform the user.
 			 */
 			Toast.makeText(this, "Your device does not support voice recognition =(", Toast.LENGTH_LONG).show();
 		}
+
+		/*
+		 * If the preferences have the alwaysListening pref set to true, we run
+		 * voice recognition from the start.
+		 */
 	}
-	
+
 	private boolean hasComponents() {
 		/*
 		 * Check for voice recognition.
@@ -78,7 +105,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		List<ResolveInfo> rin = manager.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		return rin.size() != 0;
 	}
-	
+
 	private void setWidgets() {
 		this.messageListView = (ListView) findViewById(R.id.lvMessageView);
 		this.micButton = (Button) findViewById(R.id.bMicrophone);
@@ -116,7 +143,7 @@ public class MainMenu extends Activity implements OnInitListener {
 
 		});
 	}
-	
+
 	private void runSpeechRecognition() {
 		if (isConnected()) {
 			Intent recogIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -127,7 +154,7 @@ public class MainMenu extends Activity implements OnInitListener {
 			Toast.makeText(this, "Voice Messenger needs a data connection", Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	private boolean isConnected() {
 		/*
 		 * Check for a data connection.
@@ -136,7 +163,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		return netInfo != null && netInfo.isConnected();
 	}
-	
+
 	private void setRecognizer() {
 		this.recognizer = SpeechRecognizer.createSpeechRecognizer(this);
 		this.recognizer.setRecognitionListener(new RecognitionListener() {
@@ -192,7 +219,7 @@ public class MainMenu extends Activity implements OnInitListener {
 
 		});
 	}
-	
+
 	private void resultDispatcher(List<String> results) {
 		/*
 		 * For now, toast and speek the result for testing purposes.
@@ -204,7 +231,7 @@ public class MainMenu extends Activity implements OnInitListener {
 			Toast.makeText(this, "Please Try Again", Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	@Override
 	public void onInit(int status) {
 		/*
@@ -217,7 +244,7 @@ public class MainMenu extends Activity implements OnInitListener {
 			Toast.makeText(this, "FATAL: TTS HAS FAILED", Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -231,7 +258,7 @@ public class MainMenu extends Activity implements OnInitListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		/*
@@ -241,7 +268,7 @@ public class MainMenu extends Activity implements OnInitListener {
 		inflater.inflate(R.menu.menu_layout, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.settings) {
@@ -251,7 +278,7 @@ public class MainMenu extends Activity implements OnInitListener {
 
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		if (this.TTS != null) {
