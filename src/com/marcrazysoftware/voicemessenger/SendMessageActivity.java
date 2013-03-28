@@ -30,7 +30,7 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 	private EditText recipientBox;
 	private EditText messageBodyBox;
-	
+
 	private TextToSpeech TTS;
 	private SpeechRecognizer recognizer;
 
@@ -115,6 +115,10 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 
 			@Override
 			public void onReadyForSpeech(Bundle params) {
+				/*
+				 * Disable the speech button so we avoid overlapping speech
+				 * recognition.
+				 */
 				speakButton.setEnabled(false);
 			}
 
