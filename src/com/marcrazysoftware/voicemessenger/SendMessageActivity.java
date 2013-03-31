@@ -99,11 +99,16 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		 * Set the components.
 		 */
 		setComponents();
+		
+		/*
+		 * Run voice recognition.
+		 */
+		startVoiceRecognition();
 
 	}
 
 	/**
-	 * Checks for the devices data connection.
+	 * Checks for the device's data connection.
 	 * 
 	 * @return network connectivity status.
 	 */
