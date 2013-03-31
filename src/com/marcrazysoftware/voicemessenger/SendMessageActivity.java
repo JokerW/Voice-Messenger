@@ -40,8 +40,12 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 	private EditText recipientBox;
 	private EditText messageBodyBox;
 
+	private TextView stateText;
+
 	private TextToSpeech TTS;
 	private SpeechRecognizer recognizer;
+
+	private State state;
 
 	/*
 	 * Message details.
@@ -53,6 +57,17 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 	 * Holds the shared preferences.
 	 */
 	private SharedPreferences prefs;
+
+	/**
+	 * Provides a method for representing the current state of the
+	 * SendMessageActivity.
+	 * 
+	 * @author Daniel Marchese
+	 * 
+	 */
+	private enum State {
+		IDLE, LISTENING_RECIPIENT, LISTENING_BODY, READING_BACK, SENDING
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -176,12 +191,22 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 		this.recipientBox = (EditText) findViewById(R.id.etRecipient);
 		this.messageBodyBox = (EditText) findViewById(R.id.etMessageBody);
 
+		this.stateText = (TextView) findViewById(R.id.tvCurrentState);
+
+		/*
+		 * We set the current state to idle, and edit from here as necessary.
+		 */
+		this.stateText.setText("Listening for Recipient");
+		this.state = State.LISTENING_RECIPIENT;
+
 		/*
 		 * Set the text of the recipient box if there was a recipient string
 		 * passed with the intent.
 		 */
 		if (this.recipient != null) {
 			this.recipientBox.setText(this.recipient);
+			this.stateText.setText("Listening for Message Body");
+			this.state = State.LISTENING_BODY;
 		}
 
 		/*
