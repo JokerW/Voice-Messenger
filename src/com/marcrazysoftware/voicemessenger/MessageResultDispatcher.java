@@ -1,5 +1,5 @@
 package com.marcrazysoftware.voicemessenger;
 
-public class MessageResultDispatcher {
+public class MessageResultDispatcher extends StringComparer {
 
 }
