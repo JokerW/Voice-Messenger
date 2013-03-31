@@ -16,6 +16,9 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -269,4 +272,42 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 			Toast.makeText(this, "FATAL: TTS Has Failed", Toast.LENGTH_LONG).show();
 		}
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		/*
+		 * Inflate the options menu using the menu_layout.xml file.
+		 */
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_layout, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.settings) {
+			/*
+			 * If the settings item has been selected, pull up the settings
+			 * screen.
+			 */
+			Intent intent = new Intent(this, PrefsActivity.class);
+			startActivity(intent);
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onDestroy() {
+		/*
+		 * Close out TTS to avoid memory leaks.
+		 */
+		if (this.TTS != null) {
+			this.TTS.stop();
+			this.TTS.shutdown();
+		}
+
+		super.onDestroy();
+	}
+
 }
