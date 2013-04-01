@@ -1,6 +1,15 @@
 package com.marcrazysoftware.voicemessenger;
 
-public abstract class StringComparer {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A "Toolbox" of methods for comparing Strings with similar sounds.
+ * 
+ * @author Daniel Marchese
+ * 
+ */
+public abstract class StringMethods {
 
 	protected static int levenshteinDistance(String s1, String s2) {
 		s1 = s1.toLowerCase();
@@ -72,6 +81,23 @@ public abstract class StringComparer {
 		}
 		soundex = (code + "0000").substring(0, 4);
 		return soundex;
+	}
+	
+	protected static List<String> tokenize(String s) {
+		List<String> result = new ArrayList<String>();
+		
+		int counter = 0;
+		while (counter < s.length()) {
+			String word = "";
+			while (s.charAt(counter) != ' ' && counter < s.length()) {
+				word += s.charAt(counter);
+				counter++;
+			}
+			result.add(word);
+			counter++;
+		}
+		
+		return result;
 	}
 
 }
