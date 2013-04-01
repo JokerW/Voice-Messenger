@@ -11,6 +11,15 @@ import java.util.List;
  */
 public abstract class StringMethods {
 
+	/**
+	 * Calculates the levenshtein distance between s1 and s2.
+	 * 
+	 * @param s1
+	 *            The first string to compare.
+	 * @param s2
+	 *            The second string to compare.
+	 * @return levenshteinDistance(s1, s2).
+	 */
 	protected static int levenshteinDistance(String s1, String s2) {
 		s1 = s1.toLowerCase();
 		s2 = s2.toLowerCase();
@@ -37,6 +46,13 @@ public abstract class StringMethods {
 		return costs[s2.length()];
 	}
 
+	/**
+	 * Retrieves the soundex code for {@code c}.
+	 * 
+	 * @param c
+	 *            The character in question.
+	 * @return soundex(c).
+	 */
 	private static final String getCode(char c) {
 		switch (c) {
 		case 'B':
@@ -68,6 +84,13 @@ public abstract class StringMethods {
 		}
 	}
 
+	/**
+	 * Calculates the soundex code of s.
+	 * 
+	 * @param s
+	 *            The string in question.
+	 * @return soundex(s).
+	 */
 	protected static String soundex(String s) {
 		String code, previous, soundex;
 		code = s.toUpperCase().charAt(0) + "";
@@ -82,10 +105,17 @@ public abstract class StringMethods {
 		soundex = (code + "0000").substring(0, 4);
 		return soundex;
 	}
-	
+
+	/**
+	 * Tokenize s into its individual words.
+	 * 
+	 * @param s
+	 *            The string to tokenize.
+	 * @return An ArrayList of words in s.
+	 */
 	protected static List<String> tokenize(String s) {
 		List<String> result = new ArrayList<String>();
-		
+
 		int counter = 0;
 		while (counter < s.length()) {
 			String word = "";
@@ -96,7 +126,7 @@ public abstract class StringMethods {
 			result.add(word);
 			counter++;
 		}
-		
+
 		return result;
 	}
 
