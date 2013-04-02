@@ -10,6 +10,10 @@ import java.util.List;
  * 
  */
 public abstract class StringMethods {
+	
+	/*
+	 * For testing purposes.
+	 */
 
 	/**
 	 * Calculates the levenshtein distance between s1 and s2.
