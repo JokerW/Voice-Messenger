@@ -107,6 +107,23 @@ public abstract class StringMethods {
 	}
 
 	/**
+	 * Returns an ArrayList of the soundex strings for each word in s.
+	 * 
+	 * @param s
+	 *            The string to soundexify
+	 * @return An Array List of the soundex strings.
+	 */
+	protected static List<String> soundexify(String s) {
+		List<String> tokens = tokenize(s);
+		List<String> soundexTokens = new ArrayList<String>();
+		for (String token : tokens) {
+			soundexTokens.add(soundex(token));
+		}
+
+		return soundexTokens;
+	}
+
+	/**
 	 * Tokenize s into its individual words.
 	 * 
 	 * @param s

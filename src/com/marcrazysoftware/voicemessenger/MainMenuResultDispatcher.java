@@ -2,6 +2,7 @@ package com.marcrazysoftware.voicemessenger;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class MainMenuResultDispatcher extends StringMethods {
 	
 	private static final String sendSoundex = "S530";
@@ -30,5 +31,7 @@ public class MainMenuResultDispatcher extends StringMethods {
 			String value = resultList.remove(i);
 			resultList.add(i, soundex(value));
 		}
+		
+		
 	}
 }
