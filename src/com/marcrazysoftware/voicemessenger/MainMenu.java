@@ -223,9 +223,6 @@ public class MainMenu extends Activity implements OnInitListener {
 		 * For now, toast and speek the result for testing purposes.
 		 */
 		if (results.size() > 0) {
-			this.TTS.speak(results.get(0), TextToSpeech.QUEUE_FLUSH, null);
-			Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
-		} else {
 			MainMenuResultDispatcher dispatcher = new MainMenuResultDispatcher(results.get(0));
 			if (dispatcher.messageToSend) {
 				/*
@@ -234,7 +231,20 @@ public class MainMenu extends Activity implements OnInitListener {
 				 * stuff to this activity eventually.
 				 */
 				startActivity(new Intent(this, SendMessageActivity.class));
+			} else {
+				/*
+				 * For now, we speek the result for testing purposes.
+				 */
+				Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
+				this.TTS.speak(results.get(0), TextToSpeech.QUEUE_FLUSH, null);
 			}
+		} else {
+			/*
+			 * Reaching this point means that voice recognition was cancelled
+			 * unexpectedly, or the speech was not able to be deciphered. Inform
+			 * the user that there was a problem.
+			 */
+			Toast.makeText(this, "Please try to speek more clearly", Toast.LENGTH_LONG).show();
 		}
 	}
 

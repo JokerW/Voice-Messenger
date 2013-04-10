@@ -2,8 +2,6 @@ package com.marcrazysoftware.voicemessenger;
 
 import java.util.List;
 
-import android.content.Context;
-
 public class MainMenuResultDispatcher extends StringMethods {
 
 	private static final String sendSoundex = "S530";
