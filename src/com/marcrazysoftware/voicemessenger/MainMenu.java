@@ -83,7 +83,7 @@ public class MainMenu extends Activity implements OnInitListener {
 			if (this.prefs.getBoolean("alwaysListening", false)) {
 				runSpeechRecognition();
 			}
-			
+
 		} else {
 			/*
 			 * This device does not support voice recognition, inform the user.
@@ -171,7 +171,6 @@ public class MainMenu extends Activity implements OnInitListener {
 			@Override
 			public void onBeginningOfSpeech() {
 				micButton.setEnabled(false);
-
 			}
 
 			@Override
@@ -182,7 +181,6 @@ public class MainMenu extends Activity implements OnInitListener {
 			@Override
 			public void onEndOfSpeech() {
 				micButton.setEnabled(true);
-
 			}
 
 			@Override
@@ -228,7 +226,15 @@ public class MainMenu extends Activity implements OnInitListener {
 			this.TTS.speak(results.get(0), TextToSpeech.QUEUE_FLUSH, null);
 			Toast.makeText(this, results.get(0), Toast.LENGTH_LONG).show();
 		} else {
-			Toast.makeText(this, "Please Try Again", Toast.LENGTH_LONG).show();
+			MainMenuResultDispatcher dispatcher = new MainMenuResultDispatcher(results.get(0));
+			if (dispatcher.messageToSend) {
+				/*
+				 * If there is a message to send, start the SendMessageActivity.
+				 * TODO: Check for a person to send to, we might be sending more
+				 * stuff to this activity eventually.
+				 */
+				startActivity(new Intent(this, SendMessageActivity.class));
+			}
 		}
 	}
 

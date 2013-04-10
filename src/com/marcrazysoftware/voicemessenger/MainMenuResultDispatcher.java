@@ -2,12 +2,17 @@ package com.marcrazysoftware.voicemessenger;
 
 import java.util.List;
 
-@SuppressWarnings("unused")
+import android.content.Context;
+
 public class MainMenuResultDispatcher extends StringMethods {
-	
+
 	private static final String sendSoundex = "S530";
 	private static final String messageSoundex = "M220";
 	private static final String textSoundex = "T230";
+
+	private static final int soundexTolerance = 2;
+	
+	public boolean messageToSend = false;
 
 	/**
 	 * Constructor for this class, serves as a dispatcher for the results of the
@@ -21,17 +26,37 @@ public class MainMenuResultDispatcher extends StringMethods {
 	 */
 	public MainMenuResultDispatcher(String result) {
 		/*
-		 * Tokenize the result string
+		 * Soundexify the result string.
 		 */
-		List<String> resultList = tokenize(result);
+		List<String> soundexList = soundexify(result);
+
 		/*
-		 * Replace each entry with its corresponding soundex code.
+		 * We will keep track of a score to determine what to do with our string
+		 * result.
 		 */
-		for (int i = 0; i < resultList.size(); i++) {
-			String value = resultList.remove(i);
-			resultList.add(i, soundex(value));
+		int score = 0;
+
+		/*
+		 * Calculate the score. We determine if the strings are similar enough
+		 * to other keywords using the levenshtein distance algorithm. This will
+		 * help determine the action we take next.
+		 */
+		for (String s : soundexList) {
+			if (levenshteinDistance(s, sendSoundex) < soundexTolerance) {
+				score++;
+			} else if (levenshteinDistance(s, messageSoundex) < soundexTolerance) {
+				score++;
+			} else if (levenshteinDistance(s, textSoundex) < soundexTolerance) {
+				score = 2;
+			}
+
+			if (score == 2) {
+				messageToSend = true;
+			}
 		}
 		
-		
+		/*
+		 * TODO: Determine if there is a name to attach to the message we are sending.
+		 */
 	}
 }
