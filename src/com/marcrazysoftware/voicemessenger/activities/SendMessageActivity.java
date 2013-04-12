@@ -67,8 +67,8 @@ public class SendMessageActivity extends Activity implements OnInitListener {
 	 * @author Daniel Marchese
 	 * 
 	 */
-	private enum State {
-		IDLE, LISTENING_RECIPIENT, LISTENING_BODY, READING_BACK, SENDING
+	public enum State {
+		IDLE, LISTENING_RECIPIENT, LISTENING_BODY, READING_BACK, SENDING, LISTENING_COMMAND
 	};
 
 	@Override
