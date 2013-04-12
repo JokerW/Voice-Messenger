@@ -1,5 +1,6 @@
-package com.marcrazysoftware.voicemessenger;
+package com.marcrazysoftware.voicemessenger.activities;
 
+import com.marcrazysoftware.voicemessenger.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 

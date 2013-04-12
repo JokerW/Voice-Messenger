@@ -1,7 +1,10 @@
-package com.marcrazysoftware.voicemessenger;
+package com.marcrazysoftware.voicemessenger.activities;
 
 import java.util.List;
 import java.util.Locale;
+
+import com.marcrazysoftware.voicemessenger.R;
+import com.marcrazysoftware.voicemessenger.dispatchers.MainMenuResultDispatcher;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
